@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    </head>
+    <body onload="getDados()">
+        
+        <div class="w3-container w3-blue">
+            <h2>Cotações de moedas estrangeiras</h2>
+        </div>
+
+        <div id = "cotacao">            
+        </div>
+        <script>
+            function getDados()
+            {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() 
+                    {
+                        if(this.readyState == 4 && this.status == 200)
+                        {
+                            //sucesso
+                            var json = JSON.parse(this.responseText);
+                            console.log(json);
+                            var table = "<table class=\"w3-table-all\" ><tr class=\"w3-red\" ><th>Estação</th><th>Cotação</th></tr>";
+                            
+                            for (x in json)
+                            {
+                                console.log(x);
+                                table += "<tr><td>"+json[x]["station"]+"</td><td>"+json[x]["sched_tm"]+"</td></tr>";
+                            }
+                            table += "</table>";
+                            console.log(table);
+                            document.getElementById("cotacao").innerHTML = table;
+                                
+                        }
+                    }
+                    xhttp.open("GET", 
+                    "http://www3.septa.org/hackathon/RRSchedules/458", false);
+                    xhttp.send();            
+                    setTimeout(getDados, 10000);
+          }
+        </script>    
+    </body>
+</html>
